@@ -3,10 +3,13 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import NavBar from './component/NavBar/NavBar';
+import admin from './component/Admin/Admin'
 import LandingPage from './component/LandingPage/LandingPage';
 import Registration from './component/UserAuth/Registration';
+
 import { Toolbar } from '@material-ui/core';
 
 const drawerWidth = 240;
@@ -49,6 +52,7 @@ function App() {
                 <Toolbar />
                 <Route path="/" exact component={LandingPage} />
                 <Route path="/register" exact component={Registration} />
+                <Route path='/admin' exact component={admin}/>
             </main>
            </Switch>
      </ThemeProvider>
