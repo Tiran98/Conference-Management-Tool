@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, useHistory, useLocation } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, Drawer, List, Divider, ListItem, ListItemIcon, ListItemText, IconButton, Menu, MenuItem, Badge } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Button, Drawer, List, Divider, ListItem, ListItemIcon, ListItemText, IconButton, Menu, MenuItem, Badge, Modal } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FindInPageIcon from '@material-ui/icons/FindInPage';
 import PresentToAllTwoToneIcon from '@material-ui/icons/PresentToAllTwoTone';
@@ -12,7 +12,6 @@ import HelpIcon from '@material-ui/icons/Help';
 
 import logo from '../../assets/logo.png';
 import useStyles from './styles';
-import LandingPage from '../LandingPage/LandingPage';
 
 const options = ["hi"];
   
@@ -49,18 +48,28 @@ const NavBar = () => {
     useEffect(() => {
         // const token = user?.token;
         // setUser(JSON.parse(localStorage.getItem('profile')));
-      }, [location]);
+    }, [location]);
+
+    const body = (
+    <div className={classes.paper}>
+      <h2 id="simple-modal-title">Text in a modal</h2>
+      <p id="simple-modal-description">
+        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+      </p>
+      <NavBar />
+    </div>
+    );
 
     return (
         <div className={classes.root}>
-             <CssBaseline />
+            <CssBaseline />
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <Typography component={Link} to="/" variant="h6" className={classes.title} color="primary">
                         <img src={logo} height="70px" className={classes.image} /> Conference Management Tool
                     </Typography>
                     <div className={classes.grow} />
-                    <IconButton
+                    {/* <IconButton
                         aria-label="more"
                         aria-controls="long-menu"
                         aria-haspopup="true"
@@ -69,7 +78,7 @@ const NavBar = () => {
                         <Badge badgeContent={totalItems} color="secondary">
                             <NotificationsIcon />
                         </Badge>
-                    </IconButton>
+                    </IconButton> */}
                     <Menu
                         id="long-menu"
                         elevation={3}
@@ -119,7 +128,8 @@ const NavBar = () => {
                         ) : (
                             <Button component={Link} to="/user-auth" variant="outlined" className={classes.button} color="primary">Login / Register</Button>
                         )} */}
-                         <Button component={Link} to="/user-auth" variant="outlined" className={classes.button} color="primary">Login / Register</Button>
+                         <Button component={Link} to="/user-auth" variant="outlined" className={classes.button} color="primary">Login</Button>
+                         <Button component={Link} to="/register" variant="contained" className={classes.button} color="primary">Register</Button>
                     </div>
                 </Toolbar>
             </AppBar>
@@ -162,14 +172,6 @@ const NavBar = () => {
                 </div>
                 </div>
             </Drawer>
-            <main className={classes.content}>
-                <Toolbar />
-                <Router>
-                    <Switch>
-                        <Route path="/" exact component={LandingPage} />
-                    </Switch>
-                </Router>
-            </main>
         </div>
     )
 }
