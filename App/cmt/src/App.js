@@ -2,10 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 import NavBar from './component/NavBar/NavBar';
 import LandingPage from './component/LandingPage/LandingPage';
+import Registration from './component/UserAuth/Registration';
 import { Toolbar } from '@material-ui/core';
+
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme) => ({
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(4),
+    backgroundColor: '#ededed',
+    marginLeft: drawerWidth,
+  },
+}));
 
 function App() {
 
@@ -25,14 +38,19 @@ function App() {
     spacing: 8,
   });
 
+  const classes = useStyles();
+
   return (
    <Router>
       <ThemeProvider theme={theme}>
         <NavBar />
-        <Toolbar />
-        {/* <Switch>
-            <Route path="/" exact component={LandingPage} />
-        </Switch> */}
+          <Switch>
+            <main className={classes.content}>
+                <Toolbar />
+                <Route path="/" exact component={LandingPage} />
+                <Route path="/register" exact component={Registration} />
+            </main>
+           </Switch>
      </ThemeProvider>
    </Router>
   );
