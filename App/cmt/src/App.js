@@ -6,9 +6,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 import NavBar from './component/NavBar/NavBar';
+import admin from './component/Admin/Admin'
 import LandingPage from './component/LandingPage/LandingPage';
 import Registration from './component/UserAuth/Registration';
+
 import { Toolbar } from '@material-ui/core';
 import Login from './component/UserAuth/Login';
 
@@ -64,6 +69,7 @@ function App() {
                       setDrawerState={setDrawerState}
                     />
                 </Route>
+                <Route path='/admin' exact component={admin}/>
             </Elements>
            </Switch>
      </ThemeProvider>
