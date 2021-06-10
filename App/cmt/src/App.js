@@ -15,6 +15,8 @@ import LandingPage from './component/LandingPage/LandingPage';
 import Registration from './component/UserAuth/Registration';
 import totalRegistrations from './component/Admin/AdminSeparatePages/TotalRegistrations'
 import TotalRevenue from './component/Admin/AdminSeparatePages/TotalRevenue'
+import ResearchPage from './component/EventPages/ResearchPage'
+import WorkShopPage from './component/EventPages/WorkShopPage'
 
 import { Toolbar } from '@material-ui/core';
 import Login from './component/UserAuth/Login';
@@ -74,6 +76,8 @@ function App() {
                 <Route path='/admin' exact component={admin}/>
                 <Route path='/adminTotReg' exact component={totalRegistrations}/>
                 <Route path='/adminTotRev' exact component={TotalRevenue}/>
+                <Route path='/research' exact component={ResearchPage}/>
+                <Route path='/workshop' exact component={WorkShopPage}/>
             </Elements>
            </Switch>
      </ThemeProvider>
