@@ -10,16 +10,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import NavBar from './component/NavBar/NavBar';
-import admin from './component/Admin/Admin'
 import LandingPage from './component/LandingPage/LandingPage';
+//Auth
+import Login from './component/UserAuth/Login';
 import Registration from './component/UserAuth/Registration';
+//Admin
+import admin from './component/Admin/Admin'
 import totalRegistrations from './component/Admin/AdminSeparatePages/TotalRegistrations'
 import TotalRevenue from './component/Admin/AdminSeparatePages/TotalRevenue'
+//Event Pages
 import ResearchPage from './component/EventPages/ResearchPage'
 import WorkShopPage from './component/EventPages/WorkShopPage'
 
 import { Toolbar } from '@material-ui/core';
-import Login from './component/UserAuth/Login';
 
 const drawerWidth = 240;
 const stripePromise = loadStripe("pk_test_51J0bmhDc9iuW9EKn8IdIYtMVW1MVrATfunEe0E4FMEw3RVMjeMbW47kQWJZZ77aBrWGCG2eZ6ojw0e3rm7i5Z65y00s4ueikq3");
