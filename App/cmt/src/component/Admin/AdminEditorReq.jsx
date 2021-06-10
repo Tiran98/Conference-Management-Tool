@@ -59,6 +59,7 @@ const AdminEditorReq = () => {
             <div>
                 <h2 style={{ fontSize: 25 }}>Editor Requests</h2>
             </div>
+            <br></br>
             <div className={classes.Reqroot}>
                 <AppBar position="static" color="default">
                     <Tabs
