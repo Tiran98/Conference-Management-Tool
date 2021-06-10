@@ -13,19 +13,6 @@ export default makeStyles((theme) => ({
         //     marginLeft: drawerWidth,
         // },
     },
-    menuButton: {
-        marginLeft: theme.spacing(1),
-    },
-    hide: {
-        display: 'none',
-    },
-    drawerIcon: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: theme.spacing(0, 1),
-        ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
-    },
     title: {
         flexGrow: 1,
         alignItems: 'center',
@@ -46,6 +33,44 @@ export default makeStyles((theme) => ({
     },
     grow: {
         flexGrow: 1,
+    },
+    search: {
+        flexGrow: 2,
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.85),
+        '&:hover': {
+            backgroundColor: fade(theme.palette.common.white, 1),
+        },
+        marginRight: theme.spacing(2),
+        marginLeft: theme.spacing(2),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: 'auto',
+        },
+        height: 40,
+    },
+    searchIcon: {
+        padding: theme.spacing(0, 2),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    inputRoot: {
+        color: 'inherit',
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '20ch',
+        },
     },
     profile: {
         display: 'flex',

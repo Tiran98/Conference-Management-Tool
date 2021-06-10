@@ -3,11 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 import NavBar from './component/NavBar/NavBar';
 import admin from './component/Admin/Admin'
@@ -15,23 +11,19 @@ import LandingPage from './component/LandingPage/LandingPage';
 import Registration from './component/UserAuth/Registration';
 
 import { Toolbar } from '@material-ui/core';
-import Login from './component/UserAuth/Login';
 
 const drawerWidth = 240;
-const stripePromise = loadStripe("pk_test_51J0bmhDc9iuW9EKn8IdIYtMVW1MVrATfunEe0E4FMEw3RVMjeMbW47kQWJZZ77aBrWGCG2eZ6ojw0e3rm7i5Z65y00s4ueikq3");
 
 const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(4),
     backgroundColor: '#ededed',
-    // marginLeft: drawerWidth,
+    marginLeft: drawerWidth,
   },
 }));
 
 function App() {
-
-  const [drawerState, setDrawerState] = React.useState(false);
 
   const theme = createMuiTheme({
     palette: {
@@ -54,23 +46,14 @@ function App() {
   return (
    <Router>
       <ThemeProvider theme={theme}>
-        <NavBar setDrawerState={setDrawerState} drawerState={drawerState} />
+        <NavBar />
           <Switch>
-            <Elements stripe={stripePromise} className={classes.content} style={{ marginLeft: drawerWidth * drawerState }}>
+            <main className={classes.content}>
                 <Toolbar />
                 <Route path="/" exact component={LandingPage} />
-                <Route exact path="/register">
-                    <Registration 
-                      setDrawerState={setDrawerState}
-                    />
-                </Route>
-                <Route exact path="/login">
-                    <Login 
-                      setDrawerState={setDrawerState}
-                    />
-                </Route>
+                <Route path="/register" exact component={Registration} />
                 <Route path='/admin' exact component={admin}/>
-            </Elements>
+            </main>
            </Switch>
      </ThemeProvider>
    </Router>
