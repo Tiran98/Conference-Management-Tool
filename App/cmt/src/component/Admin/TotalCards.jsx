@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -15,6 +16,7 @@ const TotalCards = () => {
             <div className={classes.totalCard}>
                 <div className={classes.cardMargin}>
                     <Card className={classes.root}>
+                    <Link to={'/adminTotReg'}>
                         <CardActionArea>
                             <CardContent style={{display:'flex'}}>
                                 <GroupIcon style={{color:'#ffcc00'}}></GroupIcon>
@@ -25,11 +27,13 @@ const TotalCards = () => {
                                 300
                                 </Typography>
                             </CardContent>
-                        </CardActionArea>    
+                        </CardActionArea>
+                    </Link>        
                     </Card>
                 </div>
                 <div className={classes.cardMargin}>
                     <Card className={classes.root}>
+                        <Link to={'/adminTotRev'}>
                         <CardActionArea>
                             <CardContent style={{display:'flex'}}>
                                 <MonetizationOnIcon style={{color:'#ffcc00'}}></MonetizationOnIcon>
@@ -40,7 +44,8 @@ const TotalCards = () => {
                                 $300
                                 </Typography>
                             </CardContent>
-                        </CardActionArea>    
+                        </CardActionArea>
+                        </Link>    
                     </Card>
                 </div>
             </div>

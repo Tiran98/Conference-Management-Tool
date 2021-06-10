@@ -4,11 +4,12 @@ export default makeStyles((theme) => ({
     //Dashboard Title
     adminTitle:{
         display:'flex',
-        marginLeft:30.
+        marginLeft:30,
+        marginTop:30
     },
     adminTitleh1:{
         color:'#ffcc00',
-        fontSize:40
+        fontSize:40,
     },
     adminTitleh:{
         fontSize:40

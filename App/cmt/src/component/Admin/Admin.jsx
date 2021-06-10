@@ -56,9 +56,9 @@ const Admin = () => {
                         <h1 className={classes.adminTitleh}>Admin</h1>&nbsp;&nbsp;<h1 className={classes.adminTitleh1}>Dashboard</h1>
                     </div>
                 </Grid>
-                <Grid item xs={6} style={{marginTop:-28}}>
+                <Grid item xs={6} style={{marginTop:-20}}>
                     <div>
-                    <FormControl className={classes.margin} style={{width:450,marginLeft:80}}>
+                    <FormControl className={classes.margin} style={{width:450,marginLeft:80,marginTop:30}}>
                         <InputLabel htmlFor="demo-customized-select-native">Select Your Conference</InputLabel>
                         <NativeSelect
                         id="demo-customized-select-native"
