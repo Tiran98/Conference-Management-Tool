@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import clsx from 'clsx';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route, Link, useHistory, useLocation } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Drawer, List, Divider, ListItem, ListItemIcon, ListItemText, IconButton, Menu, MenuItem, Badge, Modal } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -6,9 +8,13 @@ import FindInPageIcon from '@material-ui/icons/FindInPage';
 import PresentToAllTwoToneIcon from '@material-ui/icons/PresentToAllTwoTone';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import HelpIcon from '@material-ui/icons/Help';
+import CloseIcon from '@material-ui/icons/Close';
 
 import logo from '../../assets/logo.png';
 import useStyles from './styles';
@@ -17,7 +23,7 @@ const options = ["hi"];
   
 const ITEM_HEIGHT = 48;
 
-const NavBar = () => {
+const NavBar = ({ setDrawerState, drawerState }) => {
     const classes = useStyles();
     const location = useLocation();
     const history = useHistory();
@@ -25,6 +31,7 @@ const NavBar = () => {
     const [notifications, setNotifications] = useState(["hi"]);
     const totalItems = notifications.length;
     const open = Boolean(anchorEl);
+    const theme = useTheme();
 
     // const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
@@ -45,26 +52,38 @@ const NavBar = () => {
         setNotifications([]);
     };
 
+    const handleDrawerOpen = () => {
+        setDrawerState(true);
+    };
+    
+    const handleDrawerClose = () => {
+        setDrawerState(false);
+    };
+
     useEffect(() => {
         // const token = user?.token;
         // setUser(JSON.parse(localStorage.getItem('profile')));
     }, [location]);
-
-    const body = (
-    <div className={classes.paper}>
-      <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
-      <NavBar />
-    </div>
-    );
 
     return (
         <div className={classes.root}>
             <CssBaseline />
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
+                    {drawerState ? 
+                        <IconButton
+                            color="primary"
+                            onClick={handleDrawerClose}
+                        >
+                            <CloseIcon />
+                        </IconButton> :
+                        <IconButton
+                        color="primary"
+                        onClick={handleDrawerOpen}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    }
                     <Typography component={Link} to="/" variant="h6" className={classes.title} color="primary">
                         <img src={logo} height="70px" className={classes.image} /> Conference Management Tool
                     </Typography>
@@ -128,43 +147,43 @@ const NavBar = () => {
                         ) : (
                             <Button component={Link} to="/user-auth" variant="outlined" className={classes.button} color="primary">Login / Register</Button>
                         )} */}
-                         <Button component={Link} to="/user-auth" variant="outlined" className={classes.button} color="primary">Login</Button>
-                         <Button component={Link} to="/register" variant="contained" className={classes.button} color="primary">Register</Button>
+                         <Button component={Link} to="/login" variant="outlined" className={classes.button} color="primary">Sign in</Button>
+                         <Button component={Link} to="/register" variant="contained" className={classes.button} color="primary">Sign up</Button>
                     </div>
                 </Toolbar>
             </AppBar>
-            <Drawer variant="permanent" className={classes.drawer} classes={{paper: classes.drawerPaper,}}>
+            <Drawer variant="persistent" anchor="left" open={drawerState} className={classes.drawer} classes={{paper: classes.drawerPaper,}}>
                 <Toolbar />
                 <div className={classes.drawerContainer}>
-                <List>
-                    <ListItem button >
-                        <ListItemIcon ><FindInPageIcon /></ListItemIcon>
-                        <ListItemText primary="Research Presentation" />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemIcon><PresentToAllTwoToneIcon /></ListItemIcon>
-                        <ListItemText primary="Workshops" />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemIcon><RecordVoiceOverIcon /></ListItemIcon>
-                        <ListItemText primary="Keynote Speakers" />
-                    </ListItem>
-                </List>
-                <Divider />
-                <List>
-                    <ListItem button >
-                        <ListItemIcon ><GetAppIcon /></ListItemIcon>
-                        <ListItemText primary="Download Templates" />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemIcon><SupervisorAccountIcon /></ListItemIcon>
-                        <ListItemText primary="Partners" />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemIcon><HelpIcon /></ListItemIcon>
-                        <ListItemText primary="Support Page" />
-                    </ListItem>
-                </List>
+                    <List>
+                        <ListItem button >
+                            <ListItemIcon ><FindInPageIcon /></ListItemIcon>
+                            <ListItemText primary="Research Presentation" />
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon><PresentToAllTwoToneIcon /></ListItemIcon>
+                            <ListItemText primary="Workshops" />
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon><RecordVoiceOverIcon /></ListItemIcon>
+                            <ListItemText primary="Keynote Speakers" />
+                        </ListItem>
+                    </List>
+                    <Divider />
+                    <List>
+                        <ListItem button >
+                            <ListItemIcon ><GetAppIcon /></ListItemIcon>
+                            <ListItemText primary="Download Templates" />
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon><SupervisorAccountIcon /></ListItemIcon>
+                            <ListItemText primary="Partners" />
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon><HelpIcon /></ListItemIcon>
+                            <ListItemText primary="Support Page" />
+                        </ListItem>
+                    </List>
                 <div className={classes.bottomPush}>
                     <Typography variant="caption" color="inherit" align="right" className={classes.footer}>
                         © 2021 BeeCon.com.  All rights reserved.
