@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
 import NavBar from './component/NavBar/NavBar';
 import LandingPage from './component/LandingPage/LandingPage';
 //Auth
@@ -83,6 +80,7 @@ function App() {
                   <Route path='/research' exact component={ResearchPage}/>
                   <Route path='/workshop' exact component={WorkShopPage}/>
                 </div>
+              </Elements>
            </Switch>
      </ThemeProvider>
    </Router>
