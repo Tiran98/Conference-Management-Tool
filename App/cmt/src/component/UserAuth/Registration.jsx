@@ -46,6 +46,7 @@ const getColor = (props) => {
 const Registration = ({ setDrawerState }) => {
     const classes = useStyles();
     const [succeeded, setSucceeded] = useState(false);
+    const [formData, setFormData] = useState([]);
     const [error, setError] = useState(null);
     const [processing, setProcessing] = useState('');
     const [disabled, setDisabled] = useState(true);
@@ -65,12 +66,6 @@ const Registration = ({ setDrawerState }) => {
         isDragReject,
         open
     } = useDropzone();
-
-    // const onDrop = useCallback(acceptedFiles => {
-    // // Do something with the files
-    // }, []);
-    // const {getRootProps, getInputProps} = useDropzone()
-    // const {ref, ...rootProps} = getRootProps()
 
     const CssTextField = withStyles({
         root: {
@@ -146,6 +141,16 @@ const Registration = ({ setDrawerState }) => {
       });
       
     });
+
+    const onSubmit = (data) => {
+        setFormData({
+            firstName : data.firstName,
+            lastName : data.lastName,
+            email: data.email,
+            password : data.password,
+            userType : userType,
+        }, console.log(formData));
+    }
 
     const handleDrawerClose = () => {
         setDrawerState(false);
@@ -319,7 +324,7 @@ const Registration = ({ setDrawerState }) => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5" gutterBottom>Sign up</Typography>
-                <form className={classes.form}>
+                <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <Controller

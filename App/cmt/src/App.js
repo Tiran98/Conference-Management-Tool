@@ -56,6 +56,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <NavBar setDrawerState={setDrawerState} drawerState={drawerState} />
           <Switch>
+<<<<<<< Updated upstream
             <Elements stripe={stripePromise} className={classes.content} style={{ marginLeft: drawerWidth * drawerState }}>
                 <Toolbar />
                 <Route path="/" exact component={LandingPage} />
@@ -70,6 +71,23 @@ function App() {
                     />
                 </Route>
                 <Route path='/admin' exact component={admin}/>
+=======
+            <Elements stripe={stripePromise}>
+                <div className={classes.content} style={{ marginLeft: drawerWidth * drawerState }}>
+                  <Toolbar />
+                  <Route path="/" exact component={LandingPage} />
+                  <Route exact path="/register">
+                      <Registration 
+                        setDrawerState={setDrawerState}
+                      />
+                  </Route>
+                  <Route exact path="/login">
+                      <Login 
+                        setDrawerState={setDrawerState}
+                      />
+                  </Route>
+                </div>
+>>>>>>> Stashed changes
             </Elements>
            </Switch>
      </ThemeProvider>
