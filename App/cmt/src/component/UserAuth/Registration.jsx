@@ -2,15 +2,14 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Radio, RadioGroup, FormLabel, TextField, FormControlLabel, Paper, Avatar, Button, CssBaseline, Grid, Typography, Container, Divider } from '@material-ui/core/';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-import { CardElement, useStripe, useElements, ElementsConsumer } from "@stripe/react-stripe-js";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from 'axios';
 import {useDropzone} from 'react-dropzone';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form";
 import { withStyles } from '@material-ui/core/styles';
+
 
 import useStyles from './styles';
 
@@ -57,6 +56,7 @@ const Registration = ({ setDrawerState }) => {
     const [userType, setUserType] = useState("");
     const { control, handleSubmit, reset } = useForm();
     const history = useHistory();
+    var formDataNew = new FormData();
     const {
         acceptedFiles, 
         getRootProps,
@@ -138,18 +138,46 @@ const Registration = ({ setDrawerState }) => {
         })
         .then(data => {
             setClientSecret(data.clientSecret);
-      });
+        });
       
-    });
+    }, []);
 
     const onSubmit = (data) => {
-        setFormData({
-            firstName : data.firstName,
-            lastName : data.lastName,
-            email: data.email,
-            password : data.password,
-            userType : userType,
-        }, console.log(formData));
+    
+        formDataNew.append('firstName', data.firstName);
+        formDataNew.append('lastName', data.lastName);
+        formDataNew.append('email', data.email);
+        formDataNew.append('password', data.password);
+        formDataNew.append('userType', userType);
+        formDataNew.append('phone', data.phone);
+        formDataNew.append('city', data.city);
+        formDataNew.append('researchTitle', data.researchTitle);
+        formDataNew.append('workshopTitle', data.workshopTitle);
+        formDataNew.append('file', acceptedFiles[0]);
+
+        submitForm(formDataNew);
+
+        // for(var pair of formDataNew.entries()) {
+        //         console.log(pair[0]+', '+pair[1]);
+        // }
+    }
+
+    const submitForm = (data) => {
+        console.log(data);
+
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }
+
+        axios.post('http://localhost:5000/api/user/register', data, config
+        ). then((response) => {
+            console.log(response.message);
+        }).catch((err) => {
+            console.log(err);
+        })
+
     }
 
     const handleDrawerClose = () => {
