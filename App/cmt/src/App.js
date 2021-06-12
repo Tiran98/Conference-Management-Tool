@@ -15,6 +15,7 @@ import Registration from './component/UserAuth/Registration';
 import admin from './component/Admin/Admin'
 import totalRegistrations from './component/Admin/AdminSeparatePages/TotalRegistrations'
 import TotalRevenue from './component/Admin/AdminSeparatePages/TotalRevenue'
+import AddConference from './component/Admin/AdminActivities/AddConference'
 //Event Pages
 import ResearchPage from './component/EventPages/ResearchPage'
 import WorkShopPage from './component/EventPages/WorkShopPage'
@@ -79,6 +80,7 @@ function App() {
                   <Route path='/adminTotRev' exact component={TotalRevenue}/>
                   <Route path='/research' exact component={ResearchPage}/>
                   <Route path='/workshop' exact component={WorkShopPage}/>
+                  <Route path='/addConf' exact component={AddConference}/>
                 </div>
               </Elements>
            </Switch>
