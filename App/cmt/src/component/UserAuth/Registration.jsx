@@ -163,7 +163,7 @@ const Registration = ({ setDrawerState }) => {
     }
 
     const submitForm = (data) => {
-        console.log(data);
+        // console.log(data);
 
         const config = {
             headers: {
