@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { Radio, RadioGroup, FormLabel, TextField, FormControlLabel, Paper, Avatar, Button, CssBaseline, Grid, Typography, Container, Divider } from '@material-ui/core/';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useHistory } from 'react-router-dom';
@@ -12,6 +13,10 @@ const Login = ({ setDrawerState }) => {
     const classes = useStyles();
     const { control, handleSubmit, reset } = useForm();
     const [userType, setUserType] = useState("attendee");
+    const [userToken, setUserToken] = useState("");
+    const [formData, setFormData] = useState([]);
+    const isFirstRender = useRef(true);
+    const history = useHistory();
 
     const CssTextField = withStyles({
         root: {
@@ -52,7 +57,51 @@ const Login = ({ setDrawerState }) => {
 
     useEffect(() => {
         handleDrawerClose();
-    });
+
+        if (isFirstRender.current) {
+          isFirstRender.current = false // toggle flag after first render/mounting
+          return;
+        }
+
+        if(userType == 'attendee' || userType == 'researcher' || userType == 'workshop_presenter') {
+          submitForm(formData);
+        }
+
+    }, [formData]);
+
+    useEffect(() => {
+      console.log(userToken);
+      localStorage.setItem('userToken', userToken);
+   }, [userToken])
+
+    const onSubmit = (data) => {
+    
+      setFormData({
+          email : data.email,
+          password : data.password,
+          userType : userType
+      })
+
+      // submitForm(formData);
+    }
+
+    const submitForm = (data) => {
+      // console.log(data);
+
+      axios.post('http://localhost:5000/api/user/login',
+      {
+        email : data.email,
+        password : data.password,
+        userType : data.userType
+
+      }). then((response) => {
+        setUserToken(response.data);
+        history.push('/');
+      }).catch((err) => {
+        console.log(err);
+      })
+
+    }
 
     const handleDrawerClose = () => {
         setDrawerState(false);
@@ -72,7 +121,7 @@ const Login = ({ setDrawerState }) => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5" gutterBottom>Sign In</Typography>
-                <form className={classes.form}>
+                <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12}>
                             <Controller

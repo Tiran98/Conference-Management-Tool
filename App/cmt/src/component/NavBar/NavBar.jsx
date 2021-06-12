@@ -32,15 +32,14 @@ const NavBar = ({ setDrawerState, drawerState }) => {
     const totalItems = notifications.length;
     const open = Boolean(anchorEl);
     const theme = useTheme();
-
-    // const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const [userToken, setUserToken] = useState(JSON.stringify(localStorage.getItem('userToken')));
 
     const logout = () => {
-        // dispatch({ type: 'LOGOUT' });
+        localStorage.clear();
     
-        history.push('/');
+        history.push('/login');
     
-        // setUser(null);
+        setUserToken("");
     };
 
     const handleClick = (event) => {
@@ -139,16 +138,18 @@ const NavBar = ({ setDrawerState, drawerState }) => {
                         }
                     </Menu>
                     <div>
-                        {/* {user ? (
+                        {userToken != "" ? (
                             <div className={classes.profile}>
-                                <Typography className={classes.userName} variant="h6" color="primary">{user?.result.name}</Typography>
+                                {/* <Typography className={classes.userName} variant="h6" color="primary">{user?.result.name}</Typography> */}
                                 <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
                             </div>
                         ) : (
-                            <Button component={Link} to="/user-auth" variant="outlined" className={classes.button} color="primary">Login / Register</Button>
-                        )} */}
-                         <Button component={Link} to="/login" variant="outlined" className={classes.button} color="primary">Sign in</Button>
-                         <Button component={Link} to="/register" variant="contained" className={classes.button} color="primary">Sign up</Button>
+                            <>
+                                <Button component={Link} to="/login" variant="outlined" className={classes.button} color="primary">Sign in</Button>
+                                <Button component={Link} to="/register" variant="contained" className={classes.button} color="primary">Sign up</Button>
+                            </>
+                        )}
+                         
                     </div>
                 </Toolbar>
             </AppBar>

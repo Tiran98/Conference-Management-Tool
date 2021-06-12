@@ -101,9 +101,19 @@ router.post('/login', async(req, res) => {
     const { error } = attendeeLoginValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
+
+    var emailExist = "";
     //Checking if the user exist
-    const emailExist = await Attendee.findOne({ email: req.body.email });
-    if (!emailExist) return res.status(400).send('Email does not exist');
+    if (req.body.userType == 'attendee') {
+        emailExist = await Attendee.findOne({ email: req.body.email });
+        if (!emailExist) return res.status(400).send('Email does not exist');
+    } else if (req.body.userType == 'researcher') {
+        emailExist = await Researcher.findOne({ email: req.body.email });
+        if (!emailExist) return res.status(400).send('Email does not exist');
+    } else if (req.body.userType == 'workshop_presenter') {
+        emailExist = await WorkshopPresenter.findOne({ email: req.body.email });
+        if (!emailExist) return res.status(400).send('Email does not exist');
+    }
 
     //Checking password
     const validPassword = await bcrypt.compare(req.body.password, emailExist.password)
