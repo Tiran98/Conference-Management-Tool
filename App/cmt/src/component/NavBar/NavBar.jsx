@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Switch, Route, Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Drawer, List, Divider, ListItem, ListItemIcon, ListItemText, IconButton, Menu, MenuItem, Badge, Modal } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FindInPageIcon from '@material-ui/icons/FindInPage';
@@ -156,12 +156,10 @@ const NavBar = ({ setDrawerState, drawerState }) => {
                 <Toolbar />
                 <div className={classes.drawerContainer}>
                     <List>
-                        <Link to={'/research'}>
-                            <ListItem button >
-                                <ListItemIcon ><FindInPageIcon /></ListItemIcon>
-                                <ListItemText primary="Research Presentation" />
-                            </ListItem>
-                        </Link>
+                        <ListItem component={Link} to ="/research" button >
+                            <ListItemIcon ><FindInPageIcon /></ListItemIcon>
+                            <ListItemText primary="Research Presentation" />
+                        </ListItem>
                         <Link to={'/workshop'}>
                             <ListItem button>
                                 <ListItemIcon><PresentToAllTwoToneIcon /></ListItemIcon>

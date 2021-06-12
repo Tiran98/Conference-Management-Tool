@@ -1,12 +1,17 @@
-//Validation
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
-const attendeeRegValidation = data => {
+const attendeeRegValidation = (data) => {
     const schema = Joi.object({
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         email: Joi.string().required().email(),
-        password: Joi.string().min(6).required()
+        password: Joi.string().min(6).required(),
+        userType: Joi.string().required(),
+        phone: Joi.string(),
+        city: Joi.string(),
+        researchTitle: Joi.string(),
+        workshopTitle: Joi.string(),
+        file: Joi.string(),
     });
     return schema.validate(data);
 };
@@ -14,7 +19,8 @@ const attendeeRegValidation = data => {
 const attendeeLoginValidation = data => {
     const schema = Joi.object({
         email: Joi.string().required().email(),
-        password: Joi.string().min(6).required()
+        password: Joi.string().min(6).required(),
+        userType: Joi.string().required()
     });
     return schema.validate(data);
 };

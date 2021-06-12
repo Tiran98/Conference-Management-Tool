@@ -1,12 +1,32 @@
 const { response } = require('express');
 const express = require('express');
 const router = express.Router();
-const Attendee = require('../model/Attendee');
+const Attendee = require('../Models/Attendee');
+const Researcher = require('../Models/Researcher');
+const WorkshopPresenter = require('../Models/WorkshopPresenter');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const util = require("util");
 const { attendeeRegValidation, attendeeLoginValidation } = require('../validation');
 
-router.post('/register', async(req, res) => {
+//Setting upload location
+var storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'uploads')
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+})
+
+var upload = multer({ storage: storage }).single('file');
+
+router.post('/register', upload, async(req, res) => {
+
+    //Get the file and convert it to base64
+    var filepath = req.file.path;
+    var filepath64 = Buffer.from(filepath).toString('base64');
 
     //Validate before submitting
     const { error } = attendeeRegValidation(req.body);
@@ -20,17 +40,55 @@ router.post('/register', async(req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-    //Create a new attendee
-    const attendee = new Attendee({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: hashedPassword,
-    });
+    var attendee = "";
+    var researcher = "";
+    var workshop_presenter = "";
+
+    if (req.body.userType == 'attendee') {
+        //Create a new attendee
+        attendee = new Attendee({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: hashedPassword,
+        });
+    } else if (req.body.userType == 'researcher') {
+        //Create a new researcher
+        researcher = new Researcher({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: hashedPassword,
+            phone: req.body.phone,
+            city: req.body.city,
+            researchTitle: req.body.researchTitle,
+            file: filepath64,
+        });
+    } else if (req.body.userType == 'workshop_presenter') {
+        //Create a new presenter
+        workshop_presenter = new WorkshopPresenter({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: hashedPassword,
+            phone: req.body.phone,
+            city: req.body.city,
+            workshopTitle: req.body.workshopTitle,
+            file: filepath64,
+        });
+    }
 
     try {
-        const savedUser = await attendee.save();
-        res.send({ user: attendee._id });
+        if (req.body.userType == 'attendee') {
+            const savedUser = await attendee.save();
+            res.send({ user: savedUser._id });
+        } else if (req.body.userType == 'researcher') {
+            const savedUser = await researcher.save();
+            res.send({ user: savedUser._id });
+        } else if (req.body.userType == 'workshop_presenter') {
+            const savedUser = await workshop_presenter.save();
+            res.send({ user: savedUser._id });
+        }
     } catch (err) {
         res.status(400).send(err);
         res.json({ messagee: err });
