@@ -156,19 +156,15 @@ const NavBar = ({ setDrawerState, drawerState }) => {
                 <Toolbar />
                 <div className={classes.drawerContainer}>
                     <List>
-                        <Link to={'/research'}>
-                            <ListItem button >
+                            <ListItem component={Link} to={'/research'} button >
                                 <ListItemIcon ><FindInPageIcon /></ListItemIcon>
                                 <ListItemText primary="Research Presentation" />
                             </ListItem>
-                        </Link>
-                        <Link to={'/workshop'}>
-                            <ListItem button>
+                            <ListItem component={Link} to={'/workshop'} button>
                                 <ListItemIcon><PresentToAllTwoToneIcon /></ListItemIcon>
                                 <ListItemText primary="Workshops" />
                             </ListItem>
-                        </Link>
-                        <ListItem button>
+                        <ListItem component={Link} to ="/addConf" button>
                             <ListItemIcon><RecordVoiceOverIcon /></ListItemIcon>
                             <ListItemText primary="Keynote Speakers" />
                         </ListItem>
