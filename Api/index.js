@@ -12,13 +12,16 @@ app.use(express.json());
 
 //Import Routes
 const authRoute = require('./routes/auth');
+const adminRoute = require('./routes/admin.route');
 
 //Route Middlewares
 app.use('/api/user', authRoute);
+app.use('/api/admin', adminRoute);
 
 //connect to db
 mongoose.connect(process.env.DB_CONNECTION, { useUnifiedTopology: true, useNewUrlParser: true })
     .then((result) => console.log('connected to db'))
     .catch((err) => console.log(err));
 
-app.listen(5000);
+const PORT = process.env.PORT;
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

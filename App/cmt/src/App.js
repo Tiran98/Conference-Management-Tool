@@ -12,6 +12,7 @@ import LandingPage from './component/LandingPage/LandingPage';
 import Login from './component/UserAuth/Login';
 import Registration from './component/UserAuth/Registration';
 //Admin
+import AdminLogin from './component/Admin/AdminLogin/AdminLogin'
 import admin from './component/Admin/Admin'
 import totalRegistrations from './component/Admin/AdminSeparatePages/TotalRegistrations'
 import TotalRevenue from './component/Admin/AdminSeparatePages/TotalRevenue'
@@ -72,6 +73,11 @@ function App() {
                   </Route>
                   <Route exact path="/login">
                       <Login 
+                        setDrawerState={setDrawerState}
+                      />
+                  </Route>
+                  <Route exact path="/adminLogin">
+                      <AdminLogin
                         setDrawerState={setDrawerState}
                       />
                   </Route>
