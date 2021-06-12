@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './component/NavBar/NavBar';
 import LandingPage from './component/LandingPage/LandingPage';
 //Auth
@@ -64,28 +61,30 @@ function App() {
       <ThemeProvider theme={theme}>
         <NavBar setDrawerState={setDrawerState} drawerState={drawerState} />
           <Switch>
-            <Elements stripe={stripePromise} className={classes.content} style={{ marginLeft: drawerWidth * drawerState }}>
-                <Toolbar />
-                <Route path="/" exact component={LandingPage} />
-                <Route exact path="/register">
-                    <Registration 
-                      setDrawerState={setDrawerState}
-                    />
-                </Route>
-                <Route exact path="/login">
-                    <Login 
-                      setDrawerState={setDrawerState}
-                    />
-                </Route>
-                <Route path='/admin' exact component={admin}/>
-                <Route path='/adminTotReg' exact component={totalRegistrations}/>
-                <Route path='/adminTotRev' exact component={TotalRevenue}/>
-                <Route path='/research' exact component={ResearchPage}/>
-                <Route path='/workshop' exact component={WorkShopPage}/>
-                <Route path='/addConf' exact component={AddConference}/>
-            </Elements>
-          </Switch>
-      </ThemeProvider>
+            <Elements stripe={stripePromise}>
+                <div className={classes.content} style={{ marginLeft: drawerWidth * drawerState }}>
+                  <Toolbar />
+                  <Route path="/" exact component={LandingPage} />
+                  <Route exact path="/register">
+                      <Registration 
+                        setDrawerState={setDrawerState}
+                      />
+                  </Route>
+                  <Route exact path="/login">
+                      <Login 
+                        setDrawerState={setDrawerState}
+                      />
+                  </Route>
+                  <Route path='/admin' exact component={admin}/>
+                  <Route path='/adminTotReg' exact component={totalRegistrations}/>
+                  <Route path='/adminTotRev' exact component={TotalRevenue}/>
+                  <Route path='/research' exact component={ResearchPage}/>
+                  <Route path='/workshop' exact component={WorkShopPage}/>
+                  <Route path='/addConf' exact component={AddConference}/>
+                </div>
+              </Elements>
+           </Switch>
+     </ThemeProvider>
    </Router>
   );
 }
