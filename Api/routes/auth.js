@@ -101,7 +101,6 @@ router.post('/login', async(req, res) => {
     const { error } = attendeeLoginValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-
     var emailExist = "";
     //Checking if the user exist
     if (req.body.userType == 'attendee') {

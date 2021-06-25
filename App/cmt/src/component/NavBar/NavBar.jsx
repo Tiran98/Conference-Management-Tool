@@ -36,10 +36,8 @@ const NavBar = ({ setDrawerState, drawerState }) => {
 
     const logout = () => {
         localStorage.clear();
-    
+        setUserToken(null);
         history.push('/login');
-    
-        setUserToken("");
     };
 
     const handleClick = (event) => {
@@ -59,9 +57,13 @@ const NavBar = ({ setDrawerState, drawerState }) => {
         setDrawerState(false);
     };
 
+    const handleToken = () => {
+        setUserToken(JSON.stringify(localStorage.getItem('userToken')));
+    };
+
     useEffect(() => {
-        // const token = user?.token;
-        // setUser(JSON.parse(localStorage.getItem('profile')));
+        setUserToken(JSON.stringify(localStorage.getItem('userToken')));
+        console.log(userToken);
     }, [location]);
 
     return (
@@ -138,7 +140,7 @@ const NavBar = ({ setDrawerState, drawerState }) => {
                         }
                     </Menu>
                     <div>
-                        {userToken != "" ? (
+                        {userToken !== "" ? (
                             <div className={classes.profile}>
                                 {/* <Typography className={classes.userName} variant="h6" color="primary">{user?.result.name}</Typography> */}
                                 <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>

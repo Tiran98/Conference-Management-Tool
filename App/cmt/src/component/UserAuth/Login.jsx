@@ -50,9 +50,9 @@ const Login = ({ setDrawerState }) => {
             },
           },
         },
-        input: {
-          color: "white"
-        }
+        // input: {
+        //   color: "white"
+        // }
     })(TextField);
 
     useEffect(() => {
@@ -70,7 +70,6 @@ const Login = ({ setDrawerState }) => {
     }, [formData]);
 
     useEffect(() => {
-      console.log(userToken);
       localStorage.setItem('userToken', userToken);
    }, [userToken])
 
@@ -156,7 +155,7 @@ const Login = ({ setDrawerState }) => {
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Button component={Link} to="/register" size="small" style={{ color: '#ffffff' }}>
-                                Don't have an account? Sign Up
+                                Don't have an account? Sign Up.
                             </Button>
                         </Grid>
                     </Grid>
