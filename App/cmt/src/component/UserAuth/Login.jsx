@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Radio, RadioGroup, FormLabel, TextField, FormControlLabel, Paper, Avatar, Button, CssBaseline, Grid, Typography, Container, Divider } from '@material-ui/core/';
@@ -13,7 +13,8 @@ const Login = ({ setDrawerState }) => {
     const classes = useStyles();
     const { control, handleSubmit, reset } = useForm();
     const [userType, setUserType] = useState("attendee");
-    const [userToken, setUserToken] = useState("");
+    const [userToken, setUserToken] = useState();
+    const [userProfile, setUserProfile] = useState([]);
     const [formData, setFormData] = useState([]);
     const isFirstRender = useRef(true);
     const history = useHistory();
@@ -67,11 +68,15 @@ const Login = ({ setDrawerState }) => {
           submitForm(formData);
         }
 
-    }, [formData]);
+        localStorage.setItem('userToken', userToken);
+
+    }, [formData, userToken]);
+
 
     useEffect(() => {
-      localStorage.setItem('userToken', userToken);
-   }, [userToken])
+      localStorage.setItem('profile', JSON.stringify(userProfile));
+      localStorage.setItem('userType', JSON.stringify(userType));
+    }, [userProfile])
 
     const onSubmit = (data) => {
     
@@ -94,13 +99,20 @@ const Login = ({ setDrawerState }) => {
         userType : data.userType
 
       }). then((response) => {
-        setUserToken(response.data);
+        setUserToken(response.data.token);
+        setUserProfile(response.data.user);
         history.push('/');
       }).catch((err) => {
         console.log(err);
       })
 
     }
+
+    // const fetchUser = async() => {
+    //   const response = await fetch('http://localhost:5001/vehicles/');
+    //   const data = await response.json();
+    //   setVehicles(data);
+    // }
 
     const handleDrawerClose = () => {
         setDrawerState(false);
