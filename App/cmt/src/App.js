@@ -12,9 +12,11 @@ import LandingPage from './component/LandingPage/LandingPage';
 import Login from './component/UserAuth/Login';
 import Registration from './component/UserAuth/Registration';
 //Admin
+import AdminLogin from './component/Admin/AdminLogin/AdminLogin'
 import admin from './component/Admin/Admin'
 import totalRegistrations from './component/Admin/AdminSeparatePages/TotalRegistrations'
 import TotalRevenue from './component/Admin/AdminSeparatePages/TotalRevenue'
+import AddConference from './component/Admin/AdminActivities/AddConference'
 //Event Pages
 import ResearchPage from './component/EventPages/ResearchPage'
 import WorkShopPage from './component/EventPages/WorkShopPage'
@@ -74,11 +76,17 @@ function App() {
                         setDrawerState={setDrawerState}
                       />
                   </Route>
+                  <Route exact path="/adminLogin">
+                      <AdminLogin
+                        setDrawerState={setDrawerState}
+                      />
+                  </Route>
                   <Route path='/admin' exact component={admin}/>
                   <Route path='/adminTotReg' exact component={totalRegistrations}/>
                   <Route path='/adminTotRev' exact component={TotalRevenue}/>
                   <Route path='/research' exact component={ResearchPage}/>
                   <Route path='/workshop' exact component={WorkShopPage}/>
+                  <Route path='/addConf' exact component={AddConference}/>
                 </div>
               </Elements>
            </Switch>
