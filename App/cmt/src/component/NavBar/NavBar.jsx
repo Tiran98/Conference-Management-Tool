@@ -33,6 +33,9 @@ const NavBar = ({ setDrawerState, drawerState }) => {
     const open = Boolean(anchorEl);
     const theme = useTheme();
     const [userToken, setUserToken] = useState(JSON.stringify(localStorage.getItem('userToken')));
+    const [userProfile, setUserProfile] = useState(JSON.parse(localStorage.getItem('profile')));
+    const [userType, setUserType] = useState(JSON.parse(localStorage.getItem('userType')));
+    const [logoutbtn, setlogoutbtn] = useState(false);
 
     const logout = () => {
         localStorage.clear();
@@ -63,7 +66,12 @@ const NavBar = ({ setDrawerState, drawerState }) => {
 
     useEffect(() => {
         setUserToken(JSON.stringify(localStorage.getItem('userToken')));
-        console.log(userToken);
+
+        if(userToken === null || userToken === "null") 
+            setlogoutbtn(false);
+        else 
+            setlogoutbtn(true);
+    
     }, [location]);
 
     return (
@@ -140,9 +148,18 @@ const NavBar = ({ setDrawerState, drawerState }) => {
                         }
                     </Menu>
                     <div>
-                        {userToken !== "" ? (
+                        {logoutbtn ? (
                             <div className={classes.profile}>
-                                {/* <Typography className={classes.userName} variant="h6" color="primary">{user?.result.name}</Typography> */}
+                                <div className={classes.profileType}>
+                                    <Typography className={classes.userName} variant="h6" color="primary">{userProfile.firstName} {userProfile.lastName}</Typography>
+                                    {userType == "attendee" ? 
+                                        <Typography className={classes.userType} variant="caption" color="primary">Attendee</Typography>: 
+                                    userType == "researcher" ? 
+                                        <Typography className={classes.userType} variant="caption" color="primary">test</Typography>:
+                                        <Typography className={classes.userType} variant="caption" color="primary">test2</Typography>
+                                    }
+                                    
+                                </div>
                                 <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
                             </div>
                         ) : (

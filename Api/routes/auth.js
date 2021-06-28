@@ -120,7 +120,12 @@ router.post('/login', async(req, res) => {
 
     //Create and assign an token
     const token = jwt.sign({ _id: emailExist._id }, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send(token);
+    const user = {
+        user: emailExist,
+        token: token,
+    };
+    res.header('auth-token', token).send(user);
+
 });
 
 

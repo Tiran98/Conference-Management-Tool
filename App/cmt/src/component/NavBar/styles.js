@@ -49,13 +49,18 @@ export default makeStyles((theme) => ({
     },
     profile: {
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         alignItems: 'center',
         [theme.breakpoints.down('sm')]: {
             width: 'auto',
             marginTop: 20,
-            justifyContent: 'center',
+            justifyContent: 'flex-end',
         },
+    },
+    profileType: {
+        display: 'flex',
+        flexDirection: "column",
+        alignItems: 'flex-end',
     },
     logout: {
         marginLeft: '20px',
@@ -65,6 +70,11 @@ export default makeStyles((theme) => ({
         alignItems: 'center',
         textAlign: 'center',
         fontSize: '12pt',
+    },
+    userType: {
+        display: 'flex',
+        alignItems: 'end',
+        textAlign: 'right',
     },
     root: {
         display: 'flex',
