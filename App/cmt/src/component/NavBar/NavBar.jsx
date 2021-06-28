@@ -15,6 +15,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import HelpIcon from '@material-ui/icons/Help';
 import CloseIcon from '@material-ui/icons/Close';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import HomeIcon from '@material-ui/icons/Home';
 
 import logo from '../../assets/logo.png';
 import useStyles from './styles';
@@ -66,6 +68,7 @@ const NavBar = ({ setDrawerState, drawerState }) => {
 
     useEffect(() => {
         setUserToken(JSON.stringify(localStorage.getItem('userToken')));
+        setUserType(JSON.parse(localStorage.getItem('userType')));
 
         if(userToken === null || userToken === "null") 
             setlogoutbtn(false);
@@ -155,8 +158,8 @@ const NavBar = ({ setDrawerState, drawerState }) => {
                                     {userType == "attendee" ? 
                                         <Typography className={classes.userType} variant="caption" color="primary">Attendee</Typography>: 
                                     userType == "researcher" ? 
-                                        <Typography className={classes.userType} variant="caption" color="primary">test</Typography>:
-                                        <Typography className={classes.userType} variant="caption" color="primary">test2</Typography>
+                                        <Typography className={classes.userType} variant="caption" color="primary">Researcher</Typography>:
+                                        <Typography className={classes.userType} variant="caption" color="primary">Workshop Presenter</Typography>
                                     }
                                     
                                 </div>
@@ -175,22 +178,33 @@ const NavBar = ({ setDrawerState, drawerState }) => {
             <Drawer variant="persistent" anchor="left" open={drawerState} className={classes.drawer} classes={{paper: classes.drawerPaper,}}>
                 <Toolbar />
                 <div className={classes.drawerContainer}>
-                    <List>
+                    {logoutbtn ?
+                    <> 
+                        <List>
                             <ListItem component={Link} to={'/research'} button >
                                 <ListItemIcon ><FindInPageIcon /></ListItemIcon>
                                 <ListItemText primary="Research Presentation" />
                             </ListItem>
                             <ListItem component={Link} to={'/workshop'} button>
                                 <ListItemIcon><PresentToAllTwoToneIcon /></ListItemIcon>
-                                <ListItemText primary="Workshops" />
+                                    <ListItemText primary="Workshops" />
                             </ListItem>
-                        <ListItem component={Link} to ="/addConf" button>
-                            <ListItemIcon><RecordVoiceOverIcon /></ListItemIcon>
-                            <ListItemText primary="Keynote Speakers" />
-                        </ListItem>
-                    </List>
-                    <Divider />
+                            <ListItem component={Link} to ="/addConf" button>
+                                <ListItemIcon><RecordVoiceOverIcon /></ListItemIcon>
+                                <ListItemText primary="Keynote Speakers" />
+                            </ListItem>
+                            <ListItem component={Link} to ="/addConf" button>
+                                <ListItemIcon><AccountCircleIcon /></ListItemIcon>
+                                <ListItemText primary="Profile" />
+                            </ListItem>
+                        </List>
+                        <Divider />
+                    </> : null }
                     <List>
+                        <ListItem component={Link} to ="/" button >
+                            <ListItemIcon ><HomeIcon /></ListItemIcon>
+                            <ListItemText primary="Home" />
+                        </ListItem>
                         <ListItem button >
                             <ListItemIcon ><GetAppIcon /></ListItemIcon>
                             <ListItemText primary="Download Templates" />

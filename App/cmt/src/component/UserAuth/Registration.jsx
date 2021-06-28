@@ -387,7 +387,7 @@ const Registration = ({ setDrawerState }) => {
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => 
-                                <CssTextField fullWidth label="Password" variant="outlined" color="primary" {...field} />}
+                                <CssTextField fullWidth label="Password" type="password" variant="outlined" color="primary" {...field} />}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -396,7 +396,7 @@ const Registration = ({ setDrawerState }) => {
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => 
-                                <CssTextField fullWidth label="Confirm Password" variant="outlined" color="primary" {...field} />}
+                                <CssTextField fullWidth label="Confirm Password" type="password" variant="outlined" color="primary" {...field} />}
                             />
                         </Grid>
                         <Grid item xs={12} sm={12}>
