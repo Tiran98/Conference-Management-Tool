@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Radio, RadioGroup, FormLabel, TextField, FormControlLabel, Paper, Avatar, Button, CssBaseline, Grid, Typography, Container, Divider } from '@material-ui/core/';
@@ -75,8 +75,11 @@ const Login = ({ setDrawerState }) => {
 
     useEffect(() => {
       localStorage.setItem('profile', JSON.stringify(userProfile));
-      localStorage.setItem('userType', JSON.stringify(userType));
     }, [userProfile])
+
+    useEffect(() => {
+      localStorage.setItem('userType', JSON.stringify(userType));
+    }, [userType])
 
     const onSubmit = (data) => {
     
@@ -149,7 +152,7 @@ const Login = ({ setDrawerState }) => {
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => 
-                                <CssTextField fullWidth label="Password" variant="outlined" color="primary" {...field} />}
+                                <CssTextField fullWidth label="Password" type="password" variant="outlined" color="primary" {...field} />}
                             />
                         </Grid>
                         <Grid item xs={12} sm={12}>
