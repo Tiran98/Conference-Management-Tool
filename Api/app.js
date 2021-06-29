@@ -13,6 +13,4 @@ app.use(express.json());
 //Import Routes
 const authRoute = require('./routes/auth');
 
-app.use('/api/user', authRoute);
-
 module.exports = app;
