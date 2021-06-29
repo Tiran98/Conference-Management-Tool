@@ -101,7 +101,6 @@ router.post('/login', async(req, res) => {
     const { error } = attendeeLoginValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-
     var emailExist = "";
     //Checking if the user exist
     if (req.body.userType == 'attendee') {
@@ -121,7 +120,12 @@ router.post('/login', async(req, res) => {
 
     //Create and assign an token
     const token = jwt.sign({ _id: emailExist._id }, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send(token);
+    const user = {
+        user: emailExist,
+        token: token,
+    };
+    res.header('auth-token', token).send(user);
+
 });
 
 

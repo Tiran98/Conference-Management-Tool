@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Radio, RadioGroup, FormLabel, TextField, FormControlLabel, Paper, Avatar, Button, CssBaseline, Grid, Typography, Container, Divider } from '@material-ui/core/';
@@ -13,7 +13,8 @@ const Login = ({ setDrawerState }) => {
     const classes = useStyles();
     const { control, handleSubmit, reset } = useForm();
     const [userType, setUserType] = useState("attendee");
-    const [userToken, setUserToken] = useState("");
+    const [userToken, setUserToken] = useState();
+    const [userProfile, setUserProfile] = useState([]);
     const [formData, setFormData] = useState([]);
     const isFirstRender = useRef(true);
     const history = useHistory();
@@ -50,9 +51,9 @@ const Login = ({ setDrawerState }) => {
             },
           },
         },
-        input: {
-          color: "white"
-        }
+        // input: {
+        //   color: "white"
+        // }
     })(TextField);
 
     useEffect(() => {
@@ -67,12 +68,18 @@ const Login = ({ setDrawerState }) => {
           submitForm(formData);
         }
 
-    }, [formData]);
+        localStorage.setItem('userToken', userToken);
+
+    }, [formData, userToken]);
+
 
     useEffect(() => {
-      console.log(userToken);
-      localStorage.setItem('userToken', userToken);
-   }, [userToken])
+      localStorage.setItem('profile', JSON.stringify(userProfile));
+    }, [userProfile])
+
+    useEffect(() => {
+      localStorage.setItem('userType', JSON.stringify(userType));
+    }, [userType])
 
     const onSubmit = (data) => {
     
@@ -95,13 +102,20 @@ const Login = ({ setDrawerState }) => {
         userType : data.userType
 
       }). then((response) => {
-        setUserToken(response.data);
+        setUserToken(response.data.token);
+        setUserProfile(response.data.user);
         history.push('/');
       }).catch((err) => {
         console.log(err);
       })
 
     }
+
+    // const fetchUser = async() => {
+    //   const response = await fetch('http://localhost:5001/vehicles/');
+    //   const data = await response.json();
+    //   setVehicles(data);
+    // }
 
     const handleDrawerClose = () => {
         setDrawerState(false);
@@ -138,7 +152,7 @@ const Login = ({ setDrawerState }) => {
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => 
-                                <CssTextField fullWidth label="Password" variant="outlined" color="primary" {...field} />}
+                                <CssTextField fullWidth label="Password" type="password" variant="outlined" color="primary" {...field} />}
                             />
                         </Grid>
                         <Grid item xs={12} sm={12}>
@@ -156,7 +170,7 @@ const Login = ({ setDrawerState }) => {
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Button component={Link} to="/register" size="small" style={{ color: '#ffffff' }}>
-                                Don't have an account? Sign Up
+                                Don't have an account? Sign Up.
                             </Button>
                         </Grid>
                     </Grid>
