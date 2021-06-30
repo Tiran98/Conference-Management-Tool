@@ -22,6 +22,7 @@ import ResearchPage from './component/EventPages/ResearchPage'
 import WorkShopPage from './component/EventPages/WorkShopPage'
 
 import { Toolbar } from '@material-ui/core';
+import Profile from './component/Profile/Profile';
 
 const drawerWidth = 240;
 const stripePromise = loadStripe("pk_test_51J0bmhDc9iuW9EKn8IdIYtMVW1MVrATfunEe0E4FMEw3RVMjeMbW47kQWJZZ77aBrWGCG2eZ6ojw0e3rm7i5Z65y00s4ueikq3");
@@ -66,6 +67,7 @@ function App() {
                 <div className={classes.content} style={{ marginLeft: drawerWidth * drawerState }}>
                   <Toolbar />
                   <Route path="/" exact component={LandingPage} />
+                  <Route path="/profile" exact component={Profile} />
                   <Route exact path="/register">
                       <Registration 
                         setDrawerState={setDrawerState}

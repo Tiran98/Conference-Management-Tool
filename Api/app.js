@@ -12,7 +12,9 @@ app.use(express.json());
 
 //Import Routes
 const authRoute = require('./routes/auth');
+const reviewRequestRoute = require('./Routes/reviewRequest');
 
 app.use('/api/user', authRoute);
+app.use('/api/reviewRequest', reviewRequestRoute);
 
 module.exports = app;

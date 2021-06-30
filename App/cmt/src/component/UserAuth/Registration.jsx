@@ -56,7 +56,7 @@ const Registration = ({ setDrawerState }) => {
     const [userType, setUserType] = useState("");
     const { control, handleSubmit, reset } = useForm();
     const history = useHistory();
-    var formDataNew = new FormData();
+    const formDataNew = new FormData();
     const {
         acceptedFiles, 
         getRootProps,
@@ -143,17 +143,25 @@ const Registration = ({ setDrawerState }) => {
     }, []);
 
     const onSubmit = (data) => {
-    
-        formDataNew.append('firstName', data.firstName);
-        formDataNew.append('lastName', data.lastName);
-        formDataNew.append('email', data.email);
-        formDataNew.append('password', data.password);
-        formDataNew.append('userType', userType);
-        formDataNew.append('phone', data.phone);
-        formDataNew.append('city', data.city);
-        formDataNew.append('researchTitle', data.researchTitle);
-        formDataNew.append('workshopTitle', data.workshopTitle);
-        formDataNew.append('file', acceptedFiles[0]);
+
+        if(userType == "attendee") {
+            formDataNew.append('firstName', data.firstName);
+            formDataNew.append('lastName', data.lastName);
+            formDataNew.append('email', data.email);
+            formDataNew.append('password', data.password);
+            formDataNew.append('userType', userType);
+        } else {
+            formDataNew.append('firstName', data.firstName);
+            formDataNew.append('lastName', data.lastName);
+            formDataNew.append('email', data.email);
+            formDataNew.append('password', data.password);
+            formDataNew.append('userType', userType);
+            formDataNew.append('phone', data.phone);
+            formDataNew.append('city', data.city);
+            formDataNew.append('researchTitle', data.researchTitle);
+            formDataNew.append('workshopTitle', data.workshopTitle);
+            formDataNew.append('docs', acceptedFiles[0]);
+        }
 
         submitForm(formDataNew);
 
@@ -163,7 +171,6 @@ const Registration = ({ setDrawerState }) => {
     }
 
     const submitForm = (data) => {
-        // console.log(data);
 
         const config = {
             headers: {
@@ -171,12 +178,21 @@ const Registration = ({ setDrawerState }) => {
             }
         }
 
-        axios.post('http://localhost:5000/api/user/register', data, config
-        ). then((response) => {
-            console.log(response.message);
-        }).catch((err) => {
-            console.log(err);
-        })
+        // axios.post('http://localhost:5000/api/user/register', data, config
+        // ). then((response) => {
+        //     console.log(response.message);
+        // }).catch((err) => {
+        //     console.log(err);
+        // })
+
+            axios.post('http://localhost:5000/api/user/register', data, config
+            ). then((response) => {
+                console.log(response.message);
+                history.push('/login');
+            }).catch((err) => {
+                console.log(err);
+            })
+        
 
     }
 

@@ -11,7 +11,7 @@ const attendeeRegValidation = (data) => {
         city: Joi.string(),
         researchTitle: Joi.string(),
         workshopTitle: Joi.string(),
-        file: Joi.string(),
+        doc: Joi.string()
     });
     return schema.validate(data);
 };

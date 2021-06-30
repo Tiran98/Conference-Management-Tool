@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Link, useHistory, useLocation } from 'react-router-dom';
@@ -29,6 +29,7 @@ const NavBar = ({ setDrawerState, drawerState }) => {
     const classes = useStyles();
     const location = useLocation();
     const history = useHistory();
+    const isFirstRender = useRef(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [notifications, setNotifications] = useState(["hi"]);
     const totalItems = notifications.length;
@@ -67,8 +68,14 @@ const NavBar = ({ setDrawerState, drawerState }) => {
     };
 
     useEffect(() => {
+        // if (isFirstRender.current) {
+        //     isFirstRender.current = false // toggle flag after first render/mounting
+        //     return;
+        // }
+
         setUserToken(JSON.stringify(localStorage.getItem('userToken')));
         setUserType(JSON.parse(localStorage.getItem('userType')));
+        setUserProfile(JSON.parse(localStorage.getItem('profile')));
 
         if(userToken === null || userToken === "null") 
             setlogoutbtn(false);
@@ -76,6 +83,10 @@ const NavBar = ({ setDrawerState, drawerState }) => {
             setlogoutbtn(true);
     
     }, [location]);
+
+    // useEffect(() => {
+    
+    // }, [location]);
 
     return (
         <div className={classes.root}>
@@ -193,7 +204,7 @@ const NavBar = ({ setDrawerState, drawerState }) => {
                                 <ListItemIcon><RecordVoiceOverIcon /></ListItemIcon>
                                 <ListItemText primary="Keynote Speakers" />
                             </ListItem>
-                            <ListItem component={Link} to ="/addConf" button>
+                            <ListItem component={Link} to ="/profile" button>
                                 <ListItemIcon><AccountCircleIcon /></ListItemIcon>
                                 <ListItemText primary="Profile" />
                             </ListItem>
