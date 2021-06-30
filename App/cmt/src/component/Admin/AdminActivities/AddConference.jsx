@@ -3,6 +3,7 @@ import { Grid,Button, TextField, Divider, FormControl, InputLabel, OutlinedInput
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import 'date-fns';
+import { useForm, Controller } from "react-hook-form";
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider,KeyboardTimePicker,KeyboardDatePicker,} from '@material-ui/pickers';
 
@@ -11,6 +12,8 @@ import useStyles from './styles';
 const AddConference = () => {
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+    var formDataNew = "";
+    const { control, handleSubmit, reset } = useForm();
     const [values, setValues] = React.useState({
         password: '',
         r_password: '',
@@ -47,9 +50,22 @@ const AddConference = () => {
         event.preventDefault();
     };
 
+    const onSubmit = (data) => {
+        formDataNew = {
+            "conferenceName": data.ConfName,
+            "managerName" : data.confManName,
+            "managerEmail" : data.confManEmail,
+            "managerPhone" : data.confManPhone,
+            "managerAddress" : data.confManAddr,
+            "conferenceVenue" : data.ConfVenue
+        }
+
+        console.log(data);
+    }
+
     return (
         <div>
-            <form className={classes.root} noValidate autoComplete="off">
+            <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <div className={classes.adminTitle}>
@@ -57,33 +73,33 @@ const AddConference = () => {
                         </div>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField style={{width:900}} id="ConfName" label="Conference Name" variant="outlined" fullWidth />
+                        <TextField style={{width:900}} id="ConfName" name="ConfName" label="Conference Name" variant="outlined" fullWidth />
                     </Grid>
                     <Grid item xs={12}>
                         <h6>Conference Manager Details</h6>
                     </Grid>                    
                     <Grid item xs={6} style={{marginTop:-10}}>
                         <div>
-                            <TextField style={{width:500}} id="confManName" label="Conference Manager Name" variant="outlined" fullWidth />
+                            <TextField style={{width:500}} id="confManName" name="confManName" label="Conference Manager Name" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10,marginLeft:-70}}>
                         <div>
-                            <TextField style={{width:372}} id="confManEmail" label="Email Address" variant="outlined" fullWidth />
+                            <TextField style={{width:372}} id="confManEmail" name="confManEmail" label="Email Address" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10}}>
                         <div>
-                            <TextField style={{width:500}} id="confManAddr" label="Address" variant="outlined" fullWidth />
+                            <TextField style={{width:500}} id="confManAddr" name="confManAddr" label="Address" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10,marginLeft:-70}}>
                         <div>
-                            <TextField style={{width:372}} id="confManPhone" label="Phone Number" variant="outlined" fullWidth />
+                            <TextField style={{width:372}} id="confManPhone"  name="confManPhone" label="Phone Number" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10}}>
-                        <TextField style={{width:500}} id="ConfVenue" label="Conference Venue" variant="outlined" fullWidth />
+                        <TextField style={{width:500}} id="ConfVenue" name="ConfVenue" label="Conference Venue" variant="outlined" fullWidth />
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10,marginLeft:-70}}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -235,7 +251,7 @@ const AddConference = () => {
                     </Grid>
                     <br></br>
                     <Grid item xs={12}>
-                        <Button className={classes.addConfBtn} variant="contained" color="primary">
+                        <Button type="submit" className={classes.addConfBtn} variant="contained" color="primary">
                             Add Conference
                         </Button>
                     </Grid>
