@@ -13,8 +13,17 @@ app.use(express.json());
 //Import Routes
 const authRoute = require('./routes/auth');
 const reviewRequestRoute = require('./Routes/reviewRequest');
+const adminRoute = require('./routes/admin.route');
+const researcherRoute = require('./Routes/researcher.route');
+const workshopRoute = require('./Routes/workshop.route');
+const attendeeRoute = require('./Routes/attendee.route');
 
+//Route Middlewares
 app.use('/api/user', authRoute);
 app.use('/api/reviewRequest', reviewRequestRoute);
+app.use('/api/admin', adminRoute);
+app.use('/api/researcher',researcherRoute);
+app.use('/api/workshop',workshopRoute);
+app.use('/api/attendee',attendeeRoute);
 
 module.exports = app;

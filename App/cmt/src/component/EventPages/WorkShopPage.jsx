@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core'
 import {FormControl,NativeSelect,InputBase,Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow,InputLabel} from '@material-ui/core';
 import SearchBar from "material-ui-search-bar";
+import { Link } from 'react-router-dom'
 
 import useStyles from './styles';
 
@@ -30,15 +31,29 @@ const columns = [
     return { code, conference, title, name, date };
   }
   
-  const rows = [
-    createData('#3452', 'SLIIT', 'Web Developing React', 'Derik Alex','05/06/2021'),
-    createData('#3452', 'SLIIT', 'Web Developing React', 'Derik Alex','05/06/2021'),
-    createData('#3452', 'SLIIT', 'Web Developing React', 'Derik Alex','05/06/2021'),
-  ];
+//   const rows = [
+//     createData('#3452', 'SLIIT', 'Web Developing React', 'Derik Alex','05/06/2021'),
+//     createData('#3452', 'SLIIT', 'Web Developing React', 'Derik Alex','05/06/2021'),
+//     createData('#3452', 'SLIIT', 'Web Developing React', 'Derik Alex','05/06/2021'),
+//   ];
 
 
 const WorkShopPage = () => {
     const classes = useStyles();
+
+    const [workshops, setWorkshops] = useState([{
+        firstName:'',
+        lastName:'',
+        workshopTitle:''
+    }])
+
+    useEffect(() => {
+        fetch("http://localhost:5000/api/workshop/getWorkshops").then(res => {
+            if(res.ok){
+                return res.json()
+            }
+        }).then(jsonRes => setWorkshops(jsonRes));
+    })
     
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -88,8 +103,16 @@ const WorkShopPage = () => {
                                 ))}
                                 </TableRow>
                             </TableHead>
+                            {workshops.map(workshop =>
                             <TableBody>
-                                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                                <tr>
+                                    <td>1</td>
+                                    <td>SLIIT</td>
+                                    <td>{workshop.workshopTitle}</td>
+                                    <td>{workshop.firstName} {workshop.lastName}</td>
+                                    <td>date</td>
+                                </tr>
+                                {/* {researchers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                 return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                     {columns.map((column) => {
@@ -102,14 +125,16 @@ const WorkShopPage = () => {
                                     })}
                                     </TableRow>
                                 );
-                                })}
+                                })} */}
+
                             </TableBody>
+                             )}
                             </Table>
                         </TableContainer>
                         <TablePagination
                             rowsPerPageOptions={[10, 25, 100]}
                             component="div"
-                            count={rows.length}
+                            count={workshops.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onChangePage={handleChangePage}
