@@ -153,7 +153,7 @@ const NavBar = ({ setDrawerState, drawerState }) => {
                     <div>
                         {logoutbtn ? (
                             <div className={classes.profile}>
-                                <div className={classes.profileType}>
+                                {/* <div className={classes.profileType}>
                                     <Typography className={classes.userName} variant="h6" color="primary">{userProfile.firstName} {userProfile.lastName}</Typography>
                                     {userType == "attendee" ? 
                                         <Typography className={classes.userType} variant="caption" color="primary">Attendee</Typography>: 
@@ -162,7 +162,7 @@ const NavBar = ({ setDrawerState, drawerState }) => {
                                         <Typography className={classes.userType} variant="caption" color="primary">Workshop Presenter</Typography>
                                     }
                                     
-                                </div>
+                                </div> */}
                                 <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
                             </div>
                         ) : (
