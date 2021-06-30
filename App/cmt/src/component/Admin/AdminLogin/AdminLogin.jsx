@@ -13,6 +13,7 @@ const AdminLogin = ({ setDrawerState }) => {
     const classes = useStyles();
     const { control, handleSubmit, reset } = useForm();
     const [userToken, setUserToken] = useState("");
+    const [userProfile, setUserProfile] = useState([]);
     const [formData, setFormData] = useState([]);
     const isFirstRender = useRef(true);
     const history = useHistory();
@@ -67,9 +68,12 @@ const AdminLogin = ({ setDrawerState }) => {
     }, [formData]);
 
     useEffect(() => {
-      console.log(userToken);
       localStorage.setItem('userToken', userToken);
    }, [userToken])
+
+    useEffect(() => {
+      localStorage.setItem('profile', JSON.stringify(userProfile));
+    }, [userProfile])
 
     const onSubmit = (data) => {
       setFormData({
@@ -81,7 +85,6 @@ const AdminLogin = ({ setDrawerState }) => {
     }
 
     const submitForm = (data) => {
-      console.log(data);
 
       axios.post('http://localhost:5000/api/admin/adminLogin',
       {
@@ -89,7 +92,8 @@ const AdminLogin = ({ setDrawerState }) => {
         password : data.password,
 
       }). then((response) => {
-        setUserToken(response.data);
+        setUserToken(response.data.token);
+        setUserProfile(response.data.user);
         history.push('/admin');
       }).catch((err) => {
         console.log(err);
