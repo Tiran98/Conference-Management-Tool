@@ -20,21 +20,35 @@ var storage = multer.diskStorage({
     }
 })
 
-var upload = multer({ storage: storage }).single('file');
+var upload = multer({ storage: storage }).single('docs');
 
+//Add new user
 router.post('/register', upload, async(req, res) => {
 
     //Get the file and convert it to base64
-    var filepath = req.file.path;
-    var filepath64 = Buffer.from(filepath).toString('base64');
+    var filepath = "";
+    var filepath64 = "";
+
+    if (req.file) {
+        filepath = req.file.path;
+        filepath64 = Buffer.from(filepath).toString('base64');
+    }
 
     //Validate before submitting
     const { error } = attendeeRegValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     //Checking if the user is already in the database
-    const emailExist = await Attendee.findOne({ email: req.body.email });
-    if (emailExist) return res.status(400).send('Email already exists');
+    if (req.body.userType == 'attendee') {
+        const emailExist = await Attendee.findOne({ email: req.body.email });
+        if (emailExist) return res.status(400).send('Email already exists');
+    } else if (req.body.userType == 'researcher') {
+        const emailExist = await Researcher.findOne({ email: req.body.email });
+        if (emailExist) return res.status(400).send('Email already exists');
+    } else if (req.body.userType == 'workshop_presenter') {
+        const emailExist = await WorkshopPresenter.findOne({ email: req.body.email });
+        if (emailExist) return res.status(400).send('Email already exists');
+    }
 
     //Hash passwords
     const salt = await bcrypt.genSalt(10);
@@ -95,6 +109,7 @@ router.post('/register', upload, async(req, res) => {
     }
 });
 
+//Login function
 router.post('/login', async(req, res) => {
 
     //Validate before submitting
@@ -126,6 +141,52 @@ router.post('/login', async(req, res) => {
     };
     res.header('auth-token', token).send(user);
 
+});
+
+//Update an user
+router.put('/register/:userId', async(req, res) => {
+
+    // Validate Request
+    if (!req.body) {
+        return res.status(400).send({
+            message: "content can not be empty"
+        });
+    }
+
+    const id = req.params.userId;
+    var updatedUser = "";
+
+    if (req.body.userType == 'attendee') {
+        updatedUser = await Attendee.findByIdAndUpdate(id, req.body, { useFindAndModify: false, returnOriginal: false });
+        if (!updatedUser) return res.status(400).send('Update failed.');
+    } else if (req.body.userType == 'researcher') {
+        updatedUser = await Researcher.findByIdAndUpdate(id, req.body, { useFindAndModify: false, returnOriginal: false });
+        if (!updatedUser) return res.status(400).send('Update failed.');
+    } else if (req.body.userType == 'workshop_presenter') {
+        updatedUser = await WorkshopPresenter.findByIdAndUpdate(id, req.body, { useFindAndModify: false, returnOriginal: false });
+        if (!updatedUser) return res.status(400).send('Update failed.');
+    }
+
+    res.send(updatedUser);
+});
+
+//Delete an user
+router.delete('/register/:userId', async(req, res) => {
+    const id = req.params.userId;
+    var updatedUser = "";
+
+    if (req.body.userType == 'attendee') {
+        updatedUser = await Attendee.findOneAndDelete({ "_id": id });
+        if (!updatedUser) return res.status(400).send('Delete failed.');
+    } else if (req.body.userType == 'researcher') {
+        updatedUser = await Researcher.findOneAndDelete({ "_id": id });
+        if (!updatedUser) return res.status(400).send('Delete failed.');
+    } else if (req.body.userType == 'workshop_presenter') {
+        updatedUser = await WorkshopPresenter.findOneAndDelete(id);
+        if (!updatedUser) return res.status(400).send('Delete failed.');
+    }
+
+    res.send(updatedUser);
 });
 
 
