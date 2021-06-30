@@ -6,6 +6,7 @@ import 'date-fns';
 import { useForm, Controller } from "react-hook-form";
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider,KeyboardTimePicker,KeyboardDatePicker,} from '@material-ui/pickers';
+import axios from 'axios';
 
 import useStyles from './styles';
 
@@ -25,9 +26,84 @@ const AddConference = () => {
         showReviewerConfirmPassword: false,
     });
 
+    const [confData, setConfData] = React.useState({
+        ConfName:'',
+        confManName:'',
+        confManEmail:'',
+        confManPhone:'',
+        confManAddr:'',
+        ConfVenue:'',
+        confDate:''
+    });
+
+    const [editorData, setEditorData] = React.useState({
+        editorName:'',
+        editorEmail:'',
+    });
+
+    const [reviewerData, setReviewerData] = React.useState({
+        reviewerName:'',
+        reviewerEmail:'',
+    })
+
+    const handleChangeConf =(event) =>{
+        const {name, value} = event.target;
+
+        setConfData(prevInput => {
+            return{
+                ...prevInput,
+                [name]: value
+            }
+        });
+        setEditorData(prevInput => {
+            return{
+                ...prevInput,
+                [name]: value
+            }
+        });
+        setReviewerData(prevInput => {
+            return{
+                ...prevInput,
+                [name]: value
+            }
+        })
+    }
+
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
+
+    const handleClick =(event) =>{
+        event.preventDefault();
+        const newConf = {
+            conferenceName:confData.ConfName,
+            managerName:confData.confManName,
+            managerEmail:confData.confManEmail,
+            managerPhone:confData.confManPhone,
+            managerAddress:confData.confManAddr,
+            conferenceVenue:confData.ConfVenue,
+            conferenceDate:selectedDate
+        }
+
+        const newEditor = {
+            editorName:editorData.editorName,
+            editorEmail:editorData.editorEmail,
+            e_Password:values.password
+        }
+
+        const newReviewer = {
+            reviewerName:reviewerData.reviewerName,
+            reviewerEmail:reviewerData.reviewerEmail,
+            r_Password:values.r_password
+        }
+        
+        axios.post('http://localhost:5000/api/conference/addConf', newConf)
+        console.log(newConf)
+        axios.post('http://localhost:5000/api/editor/addEditor', newEditor)
+        console.log(newEditor)
+        axios.post('http://localhost:5000/api/reviewer/addReviewer', newReviewer)
+        console.log(newReviewer)
+    }
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -65,7 +141,7 @@ const AddConference = () => {
 
     return (
         <div>
-            <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+            <form className={classes.root}>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <div className={classes.adminTitle}>
@@ -73,33 +149,33 @@ const AddConference = () => {
                         </div>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField style={{width:900}} id="ConfName" name="ConfName" label="Conference Name" variant="outlined" fullWidth />
+                        <TextField onChange={handleChangeConf} style={{width:900}} id="ConfName" name="ConfName" label="Conference Name" variant="outlined" fullWidth />
                     </Grid>
                     <Grid item xs={12}>
                         <h6>Conference Manager Details</h6>
                     </Grid>                    
                     <Grid item xs={6} style={{marginTop:-10}}>
                         <div>
-                            <TextField style={{width:500}} id="confManName" name="confManName" label="Conference Manager Name" variant="outlined" fullWidth />
+                            <TextField onChange={handleChangeConf} style={{width:500}} id="confManName" name="confManName" label="Conference Manager Name" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10,marginLeft:-70}}>
                         <div>
-                            <TextField style={{width:372}} id="confManEmail" name="confManEmail" label="Email Address" variant="outlined" fullWidth />
+                            <TextField onChange={handleChangeConf} style={{width:372}} id="confManEmail" name="confManEmail" label="Email Address" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10}}>
                         <div>
-                            <TextField style={{width:500}} id="confManAddr" name="confManAddr" label="Address" variant="outlined" fullWidth />
+                            <TextField onChange={handleChangeConf} style={{width:500}} id="confManAddr" name="confManAddr" label="Address" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10,marginLeft:-70}}>
                         <div>
-                            <TextField style={{width:372}} id="confManPhone"  name="confManPhone" label="Phone Number" variant="outlined" fullWidth />
+                            <TextField onChange={handleChangeConf} style={{width:372}} id="confManPhone"  name="confManPhone" label="Phone Number" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10}}>
-                        <TextField style={{width:500}} id="ConfVenue" name="ConfVenue" label="Conference Venue" variant="outlined" fullWidth />
+                        <TextField onChange={handleChangeConf} style={{width:500}} id="ConfVenue" name="ConfVenue" label="Conference Venue" variant="outlined" fullWidth />
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10,marginLeft:-70}}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -125,12 +201,12 @@ const AddConference = () => {
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10}}>
                         <div>
-                            <TextField style={{width:500}} id="editorName" label="Editor Name" variant="outlined" fullWidth />
+                            <TextField onChange={handleChangeConf} style={{width:500}} id="editorName" name="editorName" label="Editor Name" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10,marginLeft:-70}}>
                         <div>
-                            <TextField style={{width:372}} id="editorEmail" label="Email Address" variant="outlined" fullWidth />
+                            <TextField onChange={handleChangeConf} style={{width:372}} id="editorEmail" name="editorEmail" label="Email Address" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10}}>
@@ -139,6 +215,7 @@ const AddConference = () => {
                                 <InputLabel htmlFor="e_Password">Password</InputLabel>
                                 <OutlinedInput
                                     id="e_Password"
+                                    name="e_Password"
                                     type={values.showEditorPassword ? 'text' : 'password'}
                                     value={values.password}
                                     onChange={handleChange('password')}
@@ -164,6 +241,7 @@ const AddConference = () => {
                                 <InputLabel htmlFor="e_ConfirmPassword">Confirm Password</InputLabel>
                                 <OutlinedInput
                                     id="e_ConfirmPassword"
+                                    name="e_ConfirmPassword"
                                     type={values.showEditorConfirmPassword ? 'text' : 'e_c_password'}
                                     value={values.e_c_password}
                                     onChange={handleChange('e_c_password')}
@@ -191,12 +269,12 @@ const AddConference = () => {
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10}}>
                         <div>
-                            <TextField style={{width:500}} id="reviewerName" label="Reviewer Name" variant="outlined" fullWidth />
+                            <TextField onChange={handleChangeConf} style={{width:500}} id="reviewerName" name="reviewerName" label="Reviewer Name" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10,marginLeft:-70}}>
                         <div>
-                            <TextField style={{width:372}} id="reviewerEmail" label="Revieweer Address" variant="outlined" fullWidth />
+                            <TextField onChange={handleChangeConf} style={{width:372}} id="reviewerEmail" name="reviewerEmail" label="Revieweer Address" variant="outlined" fullWidth />
                         </div>
                     </Grid>
                     <Grid item xs={6} style={{marginTop:-10}}>
@@ -205,6 +283,7 @@ const AddConference = () => {
                                 <InputLabel htmlFor="r_Password">Password</InputLabel>
                                 <OutlinedInput
                                     id="r_Password"
+                                    name="r_Password"
                                     type={values.showReviewerPassword ? 'text' : 'r_password'}
                                     value={values.r_password}
                                     onChange={handleChange('r_password')}
@@ -230,6 +309,7 @@ const AddConference = () => {
                                 <InputLabel htmlFor="r_ConfirmPassword">Confirm Password</InputLabel>
                                 <OutlinedInput
                                     id="r_ConfirmPassword"
+                                    name="r_ConfirmPassword"
                                     type={values.showReviewerConfirmPassword ? 'text' : 'r_c_password'}
                                     value={values.r_c_password}
                                     onChange={handleChange('r_c_password')}
@@ -251,7 +331,7 @@ const AddConference = () => {
                     </Grid>
                     <br></br>
                     <Grid item xs={12}>
-                        <Button type="submit" className={classes.addConfBtn} variant="contained" color="primary">
+                        <Button onClick={handleClick} type="submit" className={classes.addConfBtn} variant="contained" color="primary">
                             Add Conference
                         </Button>
                     </Grid>

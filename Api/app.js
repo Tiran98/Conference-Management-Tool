@@ -18,6 +18,9 @@ const adminRoute = require('./routes/admin.route');
 const researcherRoute = require('./Routes/researcher.route');
 const workshopRoute = require('./Routes/workshop.route');
 const attendeeRoute = require('./Routes/attendee.route');
+const editorRoute = require('./Routes/editor.route');
+const reviewerRoute = require('./Routes/reviewer.route');
+const conferenceRoute = require('./Routes/conference.route');
 
 //Route Middlewares
 app.use('/api/user', authRoute);
@@ -27,5 +30,7 @@ app.use('/api/admin', adminRoute);
 app.use('/api/researcher', researcherRoute);
 app.use('/api/workshop', workshopRoute);
 app.use('/api/attendee', attendeeRoute);
+app.use('/api/reviewer', reviewerRoute);
+app.use('/api/editor', editorRoute);
 
 module.exports = app;
