@@ -29,7 +29,7 @@ router.post('/adminRegister', async(req, res) => {
     try {
         const savedUser = await admin.save();
         res.send({ user: savedUser._id });
-    } catch(err) {
+    } catch (err) {
         console.log(err);
     }
 });
@@ -49,8 +49,12 @@ router.post('/adminLogin', async(req, res) => {
 
     //Create and assign an token
     const token = jwt.sign({ _id: emailExist._id }, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send(token);
-    
+    const user = {
+        user: emailExist,
+        token: token,
+    };
+    res.header('auth-token', token).send(user);
+
 });
 
 module.exports = router;

@@ -1,28 +1,31 @@
 const mongoose = require('mongoose');
 
-const attendeeSchema = new mongoose.Schema({
-    firstName: {
+const conferenceSchema = new mongoose.Schema({
+    conferenceName: {
         type: String,
         required: true,
     },
-    lastName: {
+    managerName: {
         type: String,
         required: true,
     },
-    email: {
+    managerEmail: {
         type: String,
         required: true,
     },
-    password: {
+    managerPhone: {
         type: String,
         required: true,
     },
-    phone: {
+    managerAddress: {
         type: String,
     },
-    city: {
+    conferenceVenue: {
+        type: String,
+    },
+    conferenceDate: {
         type: String,
     },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Attendee', attendeeSchema);
+module.exports = mongoose.model('Conference', conferenceSchema);

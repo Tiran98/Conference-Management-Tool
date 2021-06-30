@@ -1,28 +1,31 @@
 const mongoose = require('mongoose');
 
-const attendeeSchema = new mongoose.Schema({
-    firstName: {
+const reviewRequestSchema = new mongoose.Schema({
+    docName: {
         type: String,
         required: true,
     },
-    lastName: {
+    file: {
         type: String,
         required: true,
     },
-    email: {
+    userId: {
         type: String,
         required: true,
     },
-    password: {
+    conferenceId: {
         type: String,
         required: true,
     },
-    phone: {
+    userType: {
         type: String,
     },
-    city: {
+    docStatus: {
+        type: String,
+    },
+    comment: {
         type: String,
     },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Attendee', attendeeSchema);
+module.exports = mongoose.model('ReviewRequest', reviewRequestSchema);

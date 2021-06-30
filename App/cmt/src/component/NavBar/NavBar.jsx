@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Link, useHistory, useLocation } from 'react-router-dom';
@@ -29,6 +29,7 @@ const NavBar = ({ setDrawerState, drawerState }) => {
     const classes = useStyles();
     const location = useLocation();
     const history = useHistory();
+    const isFirstRender = useRef(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [notifications, setNotifications] = useState(["hi"]);
     const totalItems = notifications.length;
@@ -67,8 +68,14 @@ const NavBar = ({ setDrawerState, drawerState }) => {
     };
 
     useEffect(() => {
+        // if (isFirstRender.current) {
+        //     isFirstRender.current = false // toggle flag after first render/mounting
+        //     return;
+        // }
+
         setUserToken(JSON.stringify(localStorage.getItem('userToken')));
         setUserType(JSON.parse(localStorage.getItem('userType')));
+        setUserProfile(JSON.parse(localStorage.getItem('profile')));
 
         if(userToken === null || userToken === "null") 
             setlogoutbtn(false);
@@ -153,16 +160,19 @@ const NavBar = ({ setDrawerState, drawerState }) => {
                     <div>
                         {logoutbtn ? (
                             <div className={classes.profile}>
-                                {/* <div className={classes.profileType}>
+                                <div className={classes.profileType}>
                                     <Typography className={classes.userName} variant="h6" color="primary">{userProfile.firstName} {userProfile.lastName}</Typography>
                                     {userType == "attendee" ? 
                                         <Typography className={classes.userType} variant="caption" color="primary">Attendee</Typography>: 
                                     userType == "researcher" ? 
                                         <Typography className={classes.userType} variant="caption" color="primary">Researcher</Typography>:
-                                        <Typography className={classes.userType} variant="caption" color="primary">Workshop Presenter</Typography>
+                                    userType == "workshop_presenter" ? 
+                                        <Typography className={classes.userType} variant="caption" color="primary">Workshop Presenter</Typography>:
+                                    userProfile.userType == "admin" ?
+                                        <Typography className={classes.userType} variant="caption" color="primary">Admin</Typography>: null
                                     }
                                     
-                                </div> */}
+                                </div>
                                 <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
                             </div>
                         ) : (
@@ -193,7 +203,7 @@ const NavBar = ({ setDrawerState, drawerState }) => {
                                 <ListItemIcon><RecordVoiceOverIcon /></ListItemIcon>
                                 <ListItemText primary="Keynote Speakers" />
                             </ListItem>
-                            <ListItem component={Link} to ="/addConf" button>
+                            <ListItem component={Link} to ="/profile" button>
                                 <ListItemIcon><AccountCircleIcon /></ListItemIcon>
                                 <ListItemText primary="Profile" />
                             </ListItem>

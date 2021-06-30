@@ -3,6 +3,7 @@ import { Grid,Button, TextField, Divider, FormControl, InputLabel, OutlinedInput
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import 'date-fns';
+import { useForm, Controller } from "react-hook-form";
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider,KeyboardTimePicker,KeyboardDatePicker,} from '@material-ui/pickers';
 import axios from 'axios';
@@ -12,6 +13,8 @@ import useStyles from './styles';
 const AddConference = () => {
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+    var formDataNew = "";
+    const { control, handleSubmit, reset } = useForm();
     const [values, setValues] = React.useState({
         password: '',
         r_password: '',
@@ -122,6 +125,19 @@ const AddConference = () => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+
+    const onSubmit = (data) => {
+        formDataNew = {
+            "conferenceName": data.ConfName,
+            "managerName" : data.confManName,
+            "managerEmail" : data.confManEmail,
+            "managerPhone" : data.confManPhone,
+            "managerAddress" : data.confManAddr,
+            "conferenceVenue" : data.ConfVenue
+        }
+
+        console.log(data);
+    }
 
     return (
         <div>
